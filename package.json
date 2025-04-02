@@ -1,0 +1,21 @@
+{
+  "name": "figma-frameworks-plugin",
+  "version": "1.0.0",
+  "description": "A Figma plugin for UI component frameworks and design systems",
+  "main": "code.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.82.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": ["figma", "plugin", "ui", "frameworks", "components", "design-system"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eganam/FrameworksPlugin.git"
+  }
+}
