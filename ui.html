@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MUI Component Library</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: #ffffff;
+    }
+
+    .container {
+      max-width: 100%;
+    }
+
+    .header {
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 500;
+      margin: 0;
+      color: #1976d2;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #666;
+      margin: 8px 0 0;
+    }
+
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .component-card {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid #e0e0e0;
+    }
+
+    .component-card:hover {
+      background: #e3f2fd;
+      border-color: #1976d2;
+      transform: translateY(-1px);
+    }
+
+    .component-card h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .component-card p {
+      margin: 0;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .component-icon {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 8px;
+      color: #1976d2;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #1976d2;
+    }
+
+    .category-select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      background: white;
+    }
+
+    .category-select:focus {
+      outline: none;
+      border-color: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Material UI Components</h1>
+      <p>Select a component to add to your design</p>
+    </div>
+
+    <input type="text" class="search-box" placeholder="Search components..." id="searchInput">
+    
+    <select class="category-select" id="categorySelect">
+      <option value="all">All Components</option>
+      <option value="inputs">Inputs</option>
+      <option value="navigation">Navigation</option>
+      <option value="surfaces">Surfaces</option>
+      <option value="feedback">Feedback</option>
+    </select>
+
+    <div class="components-grid" id="componentsGrid">
+      <!-- Components will be added here dynamically -->
+    </div>
+  </div>
+
+  <script>
+    const components = [
+      {
+        name: 'Button',
+        description: 'Standard button with variants',
+        category: 'inputs',
+        icon: '🔘'
+      },
+      {
+        name: 'Text Field',
+        description: 'Input field with label',
+        category: 'inputs',
+        icon: '📝'
+      },
+      {
+        name: 'Select',
+        description: 'Dropdown selection menu',
+        category: 'inputs',
+        icon: '▼'
+      },
+      {
+        name: 'Checkbox',
+        description: 'Selection control',
+        category: 'inputs',
+        icon: '☑️'
+      },
+      {
+        name: 'App Bar',
+        description: 'Top navigation bar',
+        category: 'navigation',
+        icon: '📱'
+      },
+      {
+        name: 'Drawer',
+        description: 'Side navigation panel',
+        category: 'navigation',
+        icon: '☰'
+      },
+      {
+        name: 'Tabs',
+        description: 'Tabbed navigation',
+        category: 'navigation',
+        icon: '📑'
+      },
+      {
+        name: 'Breadcrumbs',
+        description: 'Navigation hierarchy',
+        category: 'navigation',
+        icon: '🔗'
+      },
+      {
+        name: 'Card',
+        description: 'Content container',
+        category: 'surfaces',
+        icon: '🃏'
+      },
+      {
+        name: 'Paper',
+        description: 'Elevated surface',
+        category: 'surfaces',
+        icon: '📄'
+      },
+      {
+        name: 'Accordion',
+        description: 'Expandable content',
+        category: 'surfaces',
+        icon: '📦'
+      },
+      {
+        name: 'Dialog',
+        description: 'Modal dialog box',
+        category: 'feedback',
+        icon: '💬'
+      }
+    ];
+
+    function createComponentCard(component) {
+      return `
+        <div class="component-card" data-component="${component.name.toLowerCase()}">
+          <div class="component-icon">${component.icon}</div>
+          <h3>${component.name}</h3>
+          <p>${component.description}</p>
+        </div>
+      `;
+    }
+
+    function filterComponents(searchTerm, category) {
+      return components.filter(component => {
+        const matchesSearch = component.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            component.description.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = category === 'all' || component.category === category;
+        return matchesSearch && matchesCategory;
+      });
+    }
+
+    function updateComponentsGrid(searchTerm = '', category = 'all') {
+      const grid = document.getElementById('componentsGrid');
+      const filteredComponents = filterComponents(searchTerm, category);
+      grid.innerHTML = filteredComponents.map(createComponentCard).join('');
+    }
+
+    // Event Listeners
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      updateComponentsGrid(e.target.value, document.getElementById('categorySelect').value);
+    });
+
+    document.getElementById('categorySelect').addEventListener('change', (e) => {
+      updateComponentsGrid(document.getElementById('searchInput').value, e.target.value);
+    });
+
+    document.getElementById('componentsGrid').addEventListener('click', (e) => {
+      const card = e.target.closest('.component-card');
+      if (card) {
+        const componentName = card.dataset.component;
+        parent.postMessage({ 
+          pluginMessage: { 
+            type: 'create-component',
+            componentType: componentName,
+            framework: 'mui5'
+          }
+        }, '*');
+      }
+    });
+
+    // Initial render
+    updateComponentsGrid();
+  </script>
+</body>
+</html>
