@@ -1,0 +1,11 @@
+{
+  "name": "Frameworks Plugin",
+  "id": "frameworks-plugin",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "capabilities": ["inspect"],
+  "enablePrivatePluginApi": false,
+  "enableProposedApi": false,
+  "editorType": ["figma", "dev"]
+}
